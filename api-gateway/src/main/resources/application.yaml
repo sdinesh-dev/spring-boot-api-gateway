@@ -20,6 +20,10 @@ spring:
           predicates:
               - Path=/login/
           uri: localhost:8088
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
 
   main:
     web-application-type: reactive
