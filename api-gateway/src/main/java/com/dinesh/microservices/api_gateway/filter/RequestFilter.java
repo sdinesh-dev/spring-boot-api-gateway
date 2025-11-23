@@ -14,11 +14,11 @@ public class RequestFilter implements GatewayFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         Object body = exchange.getAttribute("cachedRequestBodyObject");
         System.out.println("in request filter");
-        if(body instanceof Student){
-            System.out.println("body"+(Student) body);
+        if (body instanceof Student) {
+            System.out.println("body:" + (Student) body);
         }
-        if(body instanceof Company){
-            System.out.println("body"+(Company) body);
+        if (body instanceof Company) {
+            System.out.println("body:" + (Company) body);
         }
         return chain.filter(exchange);
     }

@@ -13,15 +13,15 @@ public class JWTUtil {
     @Value("${jwt.secret}")
     private String secret;
 
-    public Claims getAllClaims(String token){
+    public Claims getAllClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
     }
 
-    private boolean isTokenExpired(String token){
+    private boolean isTokenExpired(String token) {
         return this.getAllClaims(token).getExpiration().before(new Date());
     }
 
-    public boolean isInvalid(String token){
+    public boolean isInvalid(String token) {
         return this.isTokenExpired(token);
     }
 }

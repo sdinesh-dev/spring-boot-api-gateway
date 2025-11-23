@@ -33,10 +33,10 @@ public class PostGlobalFilter implements WebFilter {
     }
 
     private ServerHttpResponseDecorator getDecoratedResponse(String path, ServerHttpResponse response, ServerHttpRequest request, DataBufferFactory dataBufferFactory) {
-        return new ServerHttpResponseDecorator(response){
+        return new ServerHttpResponseDecorator(response) {
             @Override
-            public Mono<Void> writeWith(final Publisher<? extends DataBuffer> body){
-                if(body instanceof Flux) {
+            public Mono<Void> writeWith(final Publisher<? extends DataBuffer> body) {
+                if (body instanceof Flux) {
                     Flux<? extends DataBuffer> fluxBody = (Flux<? extends DataBuffer>) body;
                     return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
                         DefaultDataBuffer joinedBuffer = new DefaultDataBufferFactory().join(dataBuffers);

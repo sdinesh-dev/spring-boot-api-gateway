@@ -15,14 +15,14 @@ import java.util.List;
 public class FirstController {
 
     @GetMapping
-    public List<Student> getStudent(){
+    public List<Student> getStudent() {
         System.out.println("Getting Students");
-        return Arrays.asList(new Student(1, "Ross","Student"), new Student(2,"Rachel","Student"));
+        return Arrays.asList(new Student(1, "Ross", "Student"), new Student(2, "Rachel", "Student"));
     }
 
     @PostMapping
-    public Boolean createStudent(@RequestBody Student student){
-        System.out.println("Creating Student"+student);
+    public Boolean createStudent(@RequestBody Student student) {
+        System.out.println("Creating Student" + student);
         return true;
     }
 }

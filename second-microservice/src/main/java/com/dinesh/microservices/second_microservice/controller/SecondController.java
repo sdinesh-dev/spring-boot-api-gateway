@@ -16,12 +16,12 @@ public class SecondController {
     @GetMapping
     public List<Company> getCompanies() {
         System.out.println("getting Companies");
-        return Arrays.asList(new Company(1,"TechM","company"), new Company(2,"TCS","company"));
+        return Arrays.asList(new Company(1, "TechM", "company"), new Company(2, "TCS", "company"));
     }
 
     @PostMapping
     public Boolean createCompany(@RequestBody Company company) {
-        System.out.println("creating Company:"+company);
+        System.out.println("creating Company:" + company);
         return true;
     }
 }

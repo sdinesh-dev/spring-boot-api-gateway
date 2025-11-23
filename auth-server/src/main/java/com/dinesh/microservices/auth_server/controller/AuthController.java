@@ -17,17 +17,17 @@ import java.time.temporal.ChronoUnit;
 
 @RestController
 @RequestMapping("/login")
-public class AuthController{
+public class AuthController {
 
     @Value("${jwt.secret}")
     private String secret;
 
     @GetMapping
-    public String getToken(){
+    public String getToken() {
         System.out.println("Inside Auth Login");
         return Jwts.builder()
-                .claim("id","ankitha")
-                .claim("role","admin")
+                .claim("id", "ankitha")
+                .claim("role", "admin")
                 .setSubject("Test Token")
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(Date.from(Instant.now().plus(10, ChronoUnit.MINUTES)))
@@ -35,11 +35,11 @@ public class AuthController{
     }
 
     @PostMapping
-    public String getTokenProvidingUsernameAndPassword(@RequestBody Credential credential){
+    public String getTokenProvidingUsernameAndPassword(@RequestBody Credential credential) {
         System.out.println("inside getTokenProvidingUsernameAndPassword");
         return Jwts.builder()
-                .claim("id",credential.getUserName())
-                .claim("role",credential.getRole())
+                .claim("id", credential.getUserName())
+                .claim("role", credential.getRole())
                 .setSubject("Test Token")
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(Date.from(Instant.now().plus(10, ChronoUnit.MINUTES)))

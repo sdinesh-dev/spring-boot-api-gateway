@@ -14,11 +14,11 @@ spring:
           uri: localhost:8082
         - id: internal
           predicates:
-              - Path=/process/
+            - Path=/process/
           uri: localhost:8080
         - id: auth-server
           predicates:
-              - Path=/login/
+            - Path=/login/
           uri: localhost:8088
       discovery:
         locator:

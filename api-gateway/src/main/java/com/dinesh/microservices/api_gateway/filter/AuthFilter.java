@@ -34,26 +34,27 @@ public class AuthFilter implements GatewayFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        if(!authEnabled){
+        if (!authEnabled) {
             System.out.println("Authentication is disabled");
             return chain.filter(exchange);
         }
         String token = "";
         ServerHttpRequest request = exchange.getRequest();
 
-        if(routeValidator.isSecured.test(request)){
+        if (routeValidator.isSecured.test(request)) {
             System.out.println("Validating Authentication Token");
-            if(this.isCredsMissing(request)){
+            if (this.isCredsMissing(request)) {
                 System.out.println("in error");
                 return this.onError(exchange, "Credentials missing", HttpStatus.UNAUTHORIZED);
             }
-            if(request.getHeaders().containsKey("userName") && request.getHeaders().containsKey("role")){
+
+            if (request.getHeaders().containsKey("userName") && request.getHeaders().containsKey("role")) {
                 token = authUtil.getToken(request.getHeaders().get("userName").toString(), request.getHeaders().get("role").toString());
             } else {
                 token = request.getHeaders().get("Authorization").toString().split(" ")[1];
             }
 
-            if(jwtUtil.isInvalid(token)){
+            if (jwtUtil.isInvalid(token)) {
                 return this.onError(exchange, "Auth header invalid", HttpStatus.UNAUTHORIZED);
             } else {
                 System.out.println("Authentication is successful");
@@ -63,22 +64,22 @@ public class AuthFilter implements GatewayFilter {
         return chain.filter(exchange);
     }
 
-    private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus){
+    private Mono<Void> onError(ServerWebExchange exchange, String err, HttpStatus httpStatus) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(httpStatus);
         return response.setComplete();
     }
 
-    private String getAuthHeader(ServerHttpRequest request){
+    private String getAuthHeader(ServerHttpRequest request) {
         return request.getHeaders().getOrEmpty("Authorization").get(0);
     }
 
-    private boolean isCredsMissing(ServerHttpRequest request){
+    private boolean isCredsMissing(ServerHttpRequest request) {
         return !(request.getHeaders().containsKey("userName") && request.getHeaders().containsKey("role"))
                 && !request.getHeaders().containsKey("Authorization");
     }
 
-    private void populateRequestWihHeaders(ServerWebExchange exchange, String token){
+    private void populateRequestWihHeaders(ServerWebExchange exchange, String token) {
         Claims claims = jwtUtil.getAllClaims(token);
         exchange.getRequest()
                 .mutate()

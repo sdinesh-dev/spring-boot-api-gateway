@@ -28,19 +28,19 @@ public class TypeController {
     @PostMapping
     public String getType(@RequestBody Type type, ServerHttpRequest inRequest) {
         System.out.println("getting type");
-        System.out.println("types:"+type.getTypes());
-        type.getTypes().forEach( f-> {
-            if(f.equals("Student")){
+        System.out.println("types:" + type.getTypes());
+        type.getTypes().forEach(f -> {
+            if (f.equals("Student")) {
                 HttpEntity<Student> request = new HttpEntity<>(
                         new Student(1, "Test", "Student"),
-                        setAuthHeader(inRequest.getHeaders().get("userName").toString(),inRequest.getHeaders().get("role").toString())
+                        setAuthHeader(inRequest.getHeaders().get("userName").toString(), inRequest.getHeaders().get("role").toString())
                 );
                 restTemplate.exchange("http://localhost:8080/first", HttpMethod.POST, request, String.class);
             }
-            if(f.equals("Company")){
+            if (f.equals("Company")) {
                 HttpEntity<Company> request = new HttpEntity<>(
                         new Company(1, "Test", "Company"),
-                        setAuthHeader(inRequest.getHeaders().get("userName").toString(),inRequest.getHeaders().get("role").toString())
+                        setAuthHeader(inRequest.getHeaders().get("userName").toString(), inRequest.getHeaders().get("role").toString())
                 );
                 restTemplate.exchange("http://localhost:8080/second", HttpMethod.POST, request, String.class);
             }
@@ -48,9 +48,9 @@ public class TypeController {
         return "done";
     }
 
-    private HttpHeaders setAuthHeader(String username, String role){
+    private HttpHeaders setAuthHeader(String username, String role) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer "+authUtil.getToken(username, role));
+        headers.set("Authorization", "Bearer " + authUtil.getToken(username, role));
         return headers;
     }
 }
